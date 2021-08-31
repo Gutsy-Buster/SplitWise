@@ -1,0 +1,6 @@
+4
+u1 User1 user1@gmail.com 7458962003
+u2 User2 user2@gmail.com 9856300124
+u3 User3 user3@gmail.com 7584692011
+u4 User4 user4@gmail.com 8745612304
+EXPENSE u4 1200 3 u2 u3 u1 EXACT 400 600 200
