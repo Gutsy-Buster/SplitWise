@@ -51,7 +51,7 @@ class prepareInput {
         int c = 0;
         cmd = convertToCommand(input[c++]);
         if(cmd == SHOW) {
-
+            
         } else {
             personPaidId = input[c++];
             amount = stoi(input[c++]);
@@ -98,9 +98,9 @@ class prepareInput {
 };
 
 class splitExpense {
-    unordered_map<string, unordered_map<string, int>> mp;
+    
     public:
-    splitExpense(string str) {
+    splitExpense(string str, unordered_map<string, unordered_map<string, int>>& mp) {
         prepareInput *p = new prepareInput(str);
         int numberOfUsers = p->getNumberOfUsersAmountDistributed();
         string userIdWhoPaid = p->getUserIdOfPersonPaid();
@@ -119,17 +119,15 @@ class splitExpense {
             }
         }
     }
-    unordered_map<string, unordered_map<string, int>> getBalanceSheet() {
-        return mp;
-    }
-
 };
 
 class displayBalanceSheet {
+    unordered_map<string, unordered_map<string, int>> mp;
     public:
     void display(string input) {
-        splitExpense *s = new splitExpense(input);
-        unordered_map<string, unordered_map<string, int>> mp = s->getBalanceSheet();
+        splitExpense *s = new splitExpense(input, mp);
+    }
+    void show() {
         for(auto itr = mp.begin();itr!= mp.end(); itr++) {
             cout<<itr->first<<" ---> ";
             if(itr->second.size() > 0) {
@@ -167,27 +165,16 @@ int main() {
         users[cnt] = user;
         cnt++;
     }
-    while(!file.eof()) {
-        string s;
-        file >> s;
-        input += (s +' ');
-        // input="";
-    }
-    displayBalanceSheet *d = new displayBalanceSheet();
-    d->display(input);
     file.close();
-    // while(true) {
-    //     string s;
-    //     char c, cs;
-    //     cin.clear();
-    //     getline(cin, s);
-    //     cin.clear();
-    //     cout<<"s : "<<s<<endl;
-    //     displayBalanceSheet *d = new displayBalanceSheet();
-    //     d->display(s);
-    //     cout<<"Do you wish to continue (y): ";
-    //     cin>>c;
-    //     if(c != 'y' || c != 'Y') break;
-    // }
+    string s;
+    displayBalanceSheet *d = new displayBalanceSheet();
+    while(getline(cin,s)) {
+        cout<<s<<endl;
+        if(s == "SHOW") d->show();
+        else {
+            d->display(s);
+            cout<<"OK"<<endl;
+        }
+    }
     return 0;
 }
